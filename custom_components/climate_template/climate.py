@@ -18,9 +18,11 @@ from homeassistant.components.climate.const import (
     ATTR_CURRENT_TEMPERATURE,
     ATTR_CURRENT_HUMIDITY,
     FAN_AUTO,
-    FAN_LOW,
-    FAN_MEDIUM,
-    FAN_HIGH,
+    FAN_1,
+    FAN_2,
+    FAN_3,
+    FAN_4,
+    FAN_5,
     ATTR_TARGET_TEMP_HIGH,
     ATTR_TARGET_TEMP_LOW,
     HVACMode,
@@ -110,7 +112,7 @@ PLATFORM_SCHEMA = cv.PLATFORM_SCHEMA.extend(
         ): cv.ensure_list,
         vol.Optional(
             CONF_FAN_MODE_LIST,
-            default=[FAN_AUTO, FAN_LOW, FAN_MEDIUM, FAN_HIGH],
+            default=[FAN_AUTO, FAN_1, FAN_2, FAN_3, FAN_4, FAN_5],
         ): cv.ensure_list,
         vol.Optional(
             CONF_SWING_MODE_LIST, default=[STATE_ON, HVACMode.OFF]
@@ -154,7 +156,7 @@ class TemplateClimate(TemplateEntity, ClimateEntity, RestoreEntity):
         self._current_temp = None
         self._current_humidity = None
 
-        self._current_fan_mode = FAN_LOW  # default optimistic state
+        self._current_fan_mode = FAN_1  # default optimistic state
         self._current_operation = HVACMode.OFF  # default optimistic state
         self._current_swing_mode = HVACMode.OFF  # default optimistic state
         self._target_temp = DEFAULT_TEMP  # default optimistic state
@@ -255,7 +257,7 @@ class TemplateClimate(TemplateEntity, ClimateEntity, RestoreEntity):
                 self._attr_target_temperature_low = float(temperature_low)
 
             self._current_fan_mode = previous_state.attributes.get(
-                ATTR_FAN_MODE, FAN_LOW
+                ATTR_FAN_MODE, FAN_1
             )
             self._current_swing_mode = previous_state.attributes.get(
                 ATTR_SWING_MODE, HVACMode.OFF
